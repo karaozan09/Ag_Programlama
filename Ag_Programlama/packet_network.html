@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "10.192.72.59", "label": "10.192.72.59", "shape": "dot"}, {"color": "#97c2fc", "id": "224.0.0.251", "label": "224.0.0.251", "shape": "dot"}, {"color": "#97c2fc", "id": "108.157.67.242", "label": "108.157.67.242", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.126.179", "label": "10.192.126.179", "shape": "dot"}, {"color": "#97c2fc", "id": "216.58.212.6", "label": "216.58.212.6", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.83.139", "label": "10.192.83.139", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.170.34", "label": "10.192.170.34", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.134.124", "label": "10.192.134.124", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.255.255", "label": "10.192.255.255", "shape": "dot"}, {"color": "#97c2fc", "id": "151.101.129.167", "label": "151.101.129.167", "shape": "dot"}, {"color": "#97c2fc", "id": "2.19.196.145", "label": "2.19.196.145", "shape": "dot"}, {"color": "#97c2fc", "id": "172.217.17.142", "label": "172.217.17.142", "shape": "dot"}, {"color": "#97c2fc", "id": "10.1.1.224", "label": "10.1.1.224", "shape": "dot"}, {"color": "#97c2fc", "id": "131.202.255.201", "label": "131.202.255.201", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.30.142", "label": "10.192.30.142", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.135.233", "label": "10.192.135.233", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.252.47", "label": "10.192.252.47", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.24.126", "label": "10.192.24.126", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.188.4", "label": "10.192.188.4", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.143.84", "label": "10.192.143.84", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.75.85", "label": "10.192.75.85", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.109.119", "label": "10.192.109.119", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.109.109", "label": "10.192.109.109", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.47.59", "label": "10.192.47.59", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.158.57", "label": "10.192.158.57", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.85.74", "label": "10.192.85.74", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.90.212", "label": "10.192.90.212", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.132.102", "label": "10.192.132.102", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.98.205", "label": "10.192.98.205", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.103.114", "label": "10.192.103.114", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.67.44", "label": "10.192.67.44", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.49.199", "label": "10.192.49.199", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.80.163", "label": "10.192.80.163", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.84.192", "label": "10.192.84.192", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.43.164", "label": "10.192.43.164", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.146.162", "label": "10.192.146.162", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.79.198", "label": "10.192.79.198", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.115.186", "label": "10.192.115.186", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.193.91", "label": "10.192.193.91", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.119.175", "label": "10.192.119.175", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.128.94", "label": "10.192.128.94", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.85.203", "label": "10.192.85.203", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.158.40", "label": "10.192.158.40", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.150.14", "label": "10.192.150.14", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.73.74", "label": "10.192.73.74", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.113.63", "label": "10.192.113.63", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.72.237", "label": "10.192.72.237", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.82.92", "label": "10.192.82.92", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.105.243", "label": "10.192.105.243", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.20.225", "label": "10.192.20.225", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.71.145", "label": "10.192.71.145", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.102.132", "label": "10.192.102.132", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.115.62", "label": "10.192.115.62", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.132.167", "label": "10.192.132.167", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.9.229", "label": "10.192.9.229", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.79.63", "label": "10.192.79.63", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.82.226", "label": "10.192.82.226", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.96.95", "label": "10.192.96.95", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.113.211", "label": "10.192.113.211", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.95.2", "label": "10.192.95.2", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.82.249", "label": "10.192.82.249", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.115.35", "label": "10.192.115.35", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.100.161", "label": "10.192.100.161", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.106.6", "label": "10.192.106.6", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.180.40", "label": "10.192.180.40", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.73.152", "label": "10.192.73.152", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.132.155", "label": "10.192.132.155", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.103.141", "label": "10.192.103.141", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.193.175", "label": "10.192.193.175", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.186.240", "label": "10.192.186.240", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.184.240", "label": "10.192.184.240", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.141.75", "label": "10.192.141.75", "shape": "dot"}, {"color": "#97c2fc", "id": "255.255.255.255", "label": "255.255.255.255", "shape": "dot"}, {"color": "#97c2fc", "id": "13.107.42.14", "label": "13.107.42.14", "shape": "dot"}, {"color": "#97c2fc", "id": "57.144.126.128", "label": "57.144.126.128", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.87.34", "label": "10.192.87.34", "shape": "dot"}, {"color": "#97c2fc", "id": "20.242.39.171", "label": "20.242.39.171", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.147.247", "label": "10.192.147.247", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.84.153", "label": "10.192.84.153", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.90.97", "label": "10.192.90.97", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.190.225", "label": "10.192.190.225", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.75.19", "label": "10.192.75.19", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.95.220", "label": "10.192.95.220", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.132.114", "label": "10.192.132.114", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.151.173", "label": "10.192.151.173", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.82.123", "label": "10.192.82.123", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.70.43", "label": "10.192.70.43", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.81.179", "label": "10.192.81.179", "shape": "dot"}, {"color": "#97c2fc", "id": "10.192.170.52", "label": "10.192.170.52", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "salmon", "from": "10.192.72.59", "title": "Protocols: UDP\nCount: 1\nMin Length: 124\nMax Length: 124", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "orange", "from": "108.157.67.242", "title": "Protocols: Bad TCP, TCP\nCount: 15\nMin Length: 116\nMax Length: 1494", "to": "10.192.126.179", "width": 15}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 5\nMin Length: 54\nMax Length: 85", "to": "108.157.67.242", "width": 5}, {"arrows": "to", "color": "orange", "from": "216.58.212.6", "title": "Protocols: Bad TCP, TCP\nCount: 2\nMin Length: 93\nMax Length: 365", "to": "10.192.126.179", "width": 2}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 3\nMin Length: 66\nMax Length: 93", "to": "216.58.212.6", "width": 3}, {"arrows": "to", "color": "salmon", "from": "10.192.83.139", "title": "Protocols: UDP\nCount: 1\nMin Length: 255\nMax Length: 255", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.170.34", "title": "Protocols: UDP\nCount: 1\nMin Length: 190\nMax Length: 190", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.134.124", "title": "Protocols: UDP\nCount: 2\nMin Length: 305\nMax Length: 305", "to": "10.192.255.255", "width": 2}, {"arrows": "to", "color": "orange", "from": "151.101.129.167", "title": "Protocols: Bad TCP, TCP\nCount: 2\nMin Length: 639\nMax Length: 1491", "to": "10.192.126.179", "width": 2}, {"arrows": "to", "color": "orange", "from": "2.19.196.145", "title": "Protocols: Bad TCP, TCP\nCount: 9\nMin Length: 726\nMax Length: 1514", "to": "10.192.126.179", "width": 9}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 4\nMin Length: 66\nMax Length: 207", "to": "151.101.129.167", "width": 4}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 8\nMin Length: 54\nMax Length: 134", "to": "2.19.196.145", "width": 8}, {"arrows": "to", "color": "orange", "from": "172.217.17.142", "title": "Protocols: Bad TCP, TCP\nCount: 2\nMin Length: 1004\nMax Length: 1004", "to": "10.192.126.179", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.126.179", "title": "Protocols: UDP\nCount: 4\nMin Length: 74\nMax Length: 75", "to": "10.1.1.224", "width": 4}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 2\nMin Length: 66\nMax Length: 66", "to": "172.217.17.142", "width": 2}, {"arrows": "to", "color": "orange", "from": "131.202.255.201", "title": "Protocols: TCP SYN/FIN, TCP\nCount: 3\nMin Length: 56\nMax Length: 100", "to": "10.192.126.179", "width": 3}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP SYN/FIN, TCP RST, TCP\nCount: 4\nMin Length: 54\nMax Length: 54", "to": "131.202.255.201", "width": 4}, {"arrows": "to", "color": "salmon", "from": "10.192.30.142", "title": "Protocols: UDP\nCount: 19\nMin Length: 90\nMax Length: 94", "to": "224.0.0.251", "width": 19}, {"arrows": "to", "color": "salmon", "from": "10.192.135.233", "title": "Protocols: UDP\nCount: 4\nMin Length: 104\nMax Length: 285", "to": "224.0.0.251", "width": 4}, {"arrows": "to", "color": "orange", "from": "10.192.252.47", "title": "Protocols: TCP\nCount: 13\nMin Length: 1198\nMax Length: 1514", "to": "10.192.126.179", "width": 13}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP\nCount: 3\nMin Length: 54\nMax Length: 54", "to": "10.192.252.47", "width": 3}, {"arrows": "to", "color": "salmon", "from": "10.192.24.126", "title": "Protocols: UDP\nCount: 1\nMin Length: 199\nMax Length: 199", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.188.4", "title": "Protocols: UDP\nCount: 2\nMin Length: 152\nMax Length: 152", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.143.84", "title": "Protocols: UDP\nCount: 1\nMin Length: 468\nMax Length: 468", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.75.85", "title": "Protocols: UDP\nCount: 2\nMin Length: 101\nMax Length: 189", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.109.119", "title": "Protocols: UDP\nCount: 1\nMin Length: 144\nMax Length: 144", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.109.109", "title": "Protocols: UDP\nCount: 2\nMin Length: 162\nMax Length: 219", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.47.59", "title": "Protocols: UDP\nCount: 1\nMin Length: 81\nMax Length: 81", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.158.57", "title": "Protocols: UDP\nCount: 2\nMin Length: 166\nMax Length: 223", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.85.74", "title": "Protocols: UDP\nCount: 1\nMin Length: 166\nMax Length: 166", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.90.212", "title": "Protocols: UDP\nCount: 2\nMin Length: 216\nMax Length: 572", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "orange", "from": "10.192.132.102", "title": "Protocols: TCP\nCount: 2\nMin Length: 1514\nMax Length: 1514", "to": "10.192.126.179", "width": 2}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP\nCount: 1\nMin Length: 54\nMax Length: 54", "to": "10.192.132.102", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.98.205", "title": "Protocols: UDP\nCount: 4\nMin Length: 102\nMax Length: 1474", "to": "224.0.0.251", "width": 4}, {"arrows": "to", "color": "salmon", "from": "10.192.103.114", "title": "Protocols: UDP\nCount: 2\nMin Length: 75\nMax Length: 75", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.67.44", "title": "Protocols: UDP\nCount: 5\nMin Length: 112\nMax Length: 1490", "to": "224.0.0.251", "width": 5}, {"arrows": "to", "color": "salmon", "from": "10.192.49.199", "title": "Protocols: UDP\nCount: 2\nMin Length: 152\nMax Length: 828", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.80.163", "title": "Protocols: UDP\nCount: 1\nMin Length: 399\nMax Length: 399", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.84.192", "title": "Protocols: UDP\nCount: 1\nMin Length: 166\nMax Length: 166", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.43.164", "title": "Protocols: TCP\nCount: 1\nMin Length: 56\nMax Length: 56", "to": "10.192.126.179", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.146.162", "title": "Protocols: UDP\nCount: 1\nMin Length: 152\nMax Length: 152", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.79.198", "title": "Protocols: UDP\nCount: 1\nMin Length: 420\nMax Length: 420", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.115.186", "title": "Protocols: UDP\nCount: 1\nMin Length: 164\nMax Length: 164", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.193.91", "title": "Protocols: UDP\nCount: 1\nMin Length: 150\nMax Length: 150", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.119.175", "title": "Protocols: UDP\nCount: 1\nMin Length: 485\nMax Length: 485", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.128.94", "title": "Protocols: UDP\nCount: 1\nMin Length: 427\nMax Length: 427", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.85.203", "title": "Protocols: UDP\nCount: 3\nMin Length: 148\nMax Length: 204", "to": "224.0.0.251", "width": 3}, {"arrows": "to", "color": "salmon", "from": "10.192.158.40", "title": "Protocols: UDP\nCount: 1\nMin Length: 385\nMax Length: 385", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.150.14", "title": "Protocols: UDP\nCount: 1\nMin Length: 152\nMax Length: 152", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.73.74", "title": "Protocols: UDP\nCount: 1\nMin Length: 144\nMax Length: 144", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.113.63", "title": "Protocols: UDP\nCount: 1\nMin Length: 82\nMax Length: 82", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.72.237", "title": "Protocols: UDP\nCount: 1\nMin Length: 415\nMax Length: 415", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.82.92", "title": "Protocols: UDP\nCount: 1\nMin Length: 162\nMax Length: 162", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.105.243", "title": "Protocols: UDP\nCount: 2\nMin Length: 448\nMax Length: 448", "to": "10.192.255.255", "width": 2}, {"arrows": "to", "color": "gray", "from": "10.192.20.225", "title": "Protocols: TCP SYN/FIN\nCount: 1\nMin Length: 66\nMax Length: 66", "to": "10.192.126.179", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.71.145", "title": "Protocols: TCP\nCount: 8\nMin Length: 1514\nMax Length: 1514", "to": "10.192.126.179", "width": 8}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: TCP SYN/FIN\nCount: 1\nMin Length: 66\nMax Length: 66", "to": "10.192.20.225", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP\nCount: 3\nMin Length: 54\nMax Length: 54", "to": "10.192.71.145", "width": 3}, {"arrows": "to", "color": "salmon", "from": "10.192.102.132", "title": "Protocols: UDP\nCount: 1\nMin Length: 320\nMax Length: 320", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.115.62", "title": "Protocols: UDP\nCount: 1\nMin Length: 123\nMax Length: 123", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.132.167", "title": "Protocols: UDP\nCount: 1\nMin Length: 305\nMax Length: 305", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.9.229", "title": "Protocols: UDP\nCount: 1\nMin Length: 422\nMax Length: 422", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.79.63", "title": "Protocols: UDP\nCount: 1\nMin Length: 425\nMax Length: 425", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.82.226", "title": "Protocols: UDP\nCount: 2\nMin Length: 168\nMax Length: 225", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.96.95", "title": "Protocols: UDP\nCount: 2\nMin Length: 125\nMax Length: 133", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.113.211", "title": "Protocols: UDP\nCount: 2\nMin Length: 170\nMax Length: 906", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.95.2", "title": "Protocols: UDP\nCount: 1\nMin Length: 96\nMax Length: 96", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.82.249", "title": "Protocols: UDP\nCount: 1\nMin Length: 102\nMax Length: 102", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.115.35", "title": "Protocols: TCP SYN/FIN, TCP\nCount: 2\nMin Length: 66\nMax Length: 1448", "to": "10.192.126.179", "width": 2}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: Bad TCP, TCP\nCount: 3\nMin Length: 66\nMax Length: 129", "to": "10.192.115.35", "width": 3}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP\nCount: 1\nMin Length: 164\nMax Length: 164", "to": "10.192.100.161", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.106.6", "title": "Protocols: UDP\nCount: 1\nMin Length: 87\nMax Length: 87", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.180.40", "title": "Protocols: TCP\nCount: 1\nMin Length: 1514\nMax Length: 1514", "to": "10.192.126.179", "width": 1}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: Bad TCP\nCount: 1\nMin Length: 66\nMax Length: 66", "to": "10.192.180.40", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.73.152", "title": "Protocols: UDP\nCount: 2\nMin Length: 211\nMax Length: 211", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "orange", "from": "10.192.132.155", "title": "Protocols: TCP\nCount: 1\nMin Length: 1514\nMax Length: 1514", "to": "10.192.126.179", "width": 1}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: Bad TCP\nCount: 1\nMin Length: 66\nMax Length: 66", "to": "10.192.132.155", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.103.141", "title": "Protocols: UDP\nCount: 1\nMin Length: 152\nMax Length: 152", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.193.175", "title": "Protocols: UDP\nCount: 1\nMin Length: 290\nMax Length: 290", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.186.240", "title": "Protocols: UDP\nCount: 2\nMin Length: 75\nMax Length: 75", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.184.240", "title": "Protocols: UDP\nCount: 2\nMin Length: 217\nMax Length: 217", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.141.75", "title": "Protocols: UDP\nCount: 4\nMin Length: 176\nMax Length: 176", "to": "255.255.255.255", "width": 4}, {"arrows": "to", "color": "salmon", "from": "10.192.141.75", "title": "Protocols: UDP\nCount: 1\nMin Length: 176\nMax Length: 176", "to": "10.192.255.255", "width": 1}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: TCP SYN/FIN\nCount: 2\nMin Length: 66\nMax Length: 66", "to": "13.107.42.14", "width": 2}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: TCP SYN/FIN\nCount: 2\nMin Length: 66\nMax Length: 66", "to": "57.144.126.128", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.87.34", "title": "Protocols: UDP\nCount: 1\nMin Length: 79\nMax Length: 79", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "orange", "from": "20.242.39.171", "title": "Protocols: TCP\nCount: 1\nMin Length: 1514\nMax Length: 1514", "to": "10.192.126.179", "width": 1}, {"arrows": "to", "color": "gray", "from": "10.192.126.179", "title": "Protocols: Bad TCP\nCount: 1\nMin Length: 66\nMax Length: 66", "to": "20.242.39.171", "width": 1}, {"arrows": "to", "color": "orange", "from": "10.192.126.179", "title": "Protocols: TCP\nCount: 1\nMin Length: 1514\nMax Length: 1514", "to": "10.192.147.247", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.84.153", "title": "Protocols: UDP\nCount: 1\nMin Length: 152\nMax Length: 152", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.90.97", "title": "Protocols: UDP\nCount: 1\nMin Length: 236\nMax Length: 236", "to": "10.192.255.255", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.190.225", "title": "Protocols: UDP\nCount: 1\nMin Length: 82\nMax Length: 82", "to": "255.255.255.255", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.75.19", "title": "Protocols: UDP\nCount: 2\nMin Length: 476\nMax Length: 1137", "to": "224.0.0.251", "width": 2}, {"arrows": "to", "color": "salmon", "from": "10.192.95.220", "title": "Protocols: UDP\nCount: 1\nMin Length: 409\nMax Length: 409", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.132.114", "title": "Protocols: UDP\nCount: 1\nMin Length: 394\nMax Length: 394", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.151.173", "title": "Protocols: UDP\nCount: 1\nMin Length: 82\nMax Length: 82", "to": "255.255.255.255", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.151.173", "title": "Protocols: UDP\nCount: 1\nMin Length: 82\nMax Length: 82", "to": "10.192.255.255", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.82.123", "title": "Protocols: UDP\nCount: 1\nMin Length: 422\nMax Length: 422", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.70.43", "title": "Protocols: UDP\nCount: 1\nMin Length: 137\nMax Length: 137", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.81.179", "title": "Protocols: UDP\nCount: 1\nMin Length: 365\nMax Length: 365", "to": "224.0.0.251", "width": 1}, {"arrows": "to", "color": "salmon", "from": "10.192.170.52", "title": "Protocols: UDP\nCount: 1\nMin Length: 87\nMax Length: 87", "to": "224.0.0.251", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
